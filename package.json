@@ -14,7 +14,7 @@
     "build": "npm run clean && NODE_ENV=production webpack",
     "lint": "eslint src config",
     "lint:fix": "npm run lint -- --fix",
-    "deploy:now": "npm run build && cd dist && now --static -p -n mashup-univers  && cd ..",
+    "deploy:now": "npm run build && cd dist && now --static -p -n online-portfolio  && cd ..",
     "deploy:gae:staging": "npm run build && gcloud app deploy --version=staging --no-promote && gcloud app browse && gcloud app logs tail -s default",
     "deploy:gae:production": "npm run build && gcloud app deploy --version production && gcloud app browse && gcloud app logs tail -s default"
   },
