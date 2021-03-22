@@ -1,25 +1,25 @@
-const path = require('path')
-const webpack = require('webpack')
-const recursive = require('recursive-readdir-sync')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const Dotenv = require('dotenv-webpack')
-const srcDir = path.resolve(__dirname, '..', 'src')
-const distDir = path.resolve(__dirname, '..', 'dist')
-const { NODE_ENV = 'development' } = process.env
+const path = require('path');
+const webpack = require('webpack');
+const recursive = require('recursive-readdir-sync');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const srcDir = path.resolve(__dirname, '..', 'src');
+const distDir = path.resolve(__dirname, '..', 'dist');
+const { NODE_ENV = 'development' } = process.env;
 
 function getPagesPath() {
   try {
-    var files = recursive('./src/pages')
+    var files = recursive('./src/pages');
   } catch (err) {
     if (err.errno === 34) {
-      console.log('Path does not exist')
+      console.log('Path does not exist');
     } else {
       // something unrelated went wrong, rethrow
-      throw err
+      throw err;
     }
   }
 
-  return files.filter(page => page.match(/.hbs$/))
+  return files.filter((page) => page.match(/.hbs$/));
 }
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
     publicPath: '/',
     // At some point you'll have to debug your code, that's why I'm giving you
     // for free a source map file to make your life easier
-    sourceMapFilename: 'main.map'
+    sourceMapFilename: 'main.map',
   },
   devServer: {
     contentBase: srcDir,
@@ -46,7 +46,7 @@ module.exports = {
     publicPath: '/',
     // match the output `publicPath`
     historyApiFallback: true,
-    port: 5000
+    port: 5000,
   },
   module: {
     rules: [
@@ -54,7 +54,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
-        include: srcDir
+        include: srcDir,
       },
       {
         test: /\.scss$/,
@@ -69,70 +69,70 @@ module.exports = {
                 require('autoprefixer')({
                   browsers: [
                     'last 3 version',
-                    'ie >= 10' // supports IE from version 10 onwards
-                  ]
-                })
-              ]
-            }
+                    'ie >= 10', // supports IE from version 10 onwards
+                  ],
+                }),
+              ],
+            },
           },
-          'sass-loader'
-        ]
+          'sass-loader',
+        ],
       },
       {
         test: /\.hbs$/,
         loader: 'handlebars-loader',
         query: {
           partialDirs: [path.join(srcDir, 'templates', 'partials')],
-          helperDirs: [path.join(srcDir, 'templates', 'helpers')]
-        }
+          helperDirs: [path.join(srcDir, 'templates', 'helpers')],
+        },
       },
       {
         test: /\.(eot?.+|svg?.+|ttf?.+|zip?.+|ico?.+|otf?.+|woff?.+|woff2?.+)$/,
-        use: 'file-loader?[path][name].[ext]'
+        use: 'file-loader?[path][name].[ext]',
       },
       {
         test: /\.(jpg|jpeg|png|gif|ico)$/,
         use: [
           // if less than 10Kb, bundle the asset inline, if greater, copy it to the dist/assets
           // folder using file-loader
-          'url-loader?limit=1024&[path][name].[ext]'
+          'url-loader?limit=1024&[path][name].[ext]',
         ],
-        include: path.resolve(srcDir, 'assets')
-      }
-    ]
+        include: path.resolve(srcDir, 'assets'),
+      },
+    ],
   },
   plugins: getPagesPath().reduce(
     (memo, name) => {
-      const filename = name.match(/\/pages\/(.+).hbs$/)
+      const filename = name.match(/\/pages\/(.+).hbs$/);
       memo.push(
         new HtmlWebpackPlugin({
           filename: filename[1] + '.html',
           template: path.join(__dirname, '..', name),
-          path: distDir
+          path: distDir,
         })
-      )
-      return memo
+      );
+      return memo;
     },
     [
       new webpack.NamedModulesPlugin(),
       // environment globals added must be added to .eslintrc
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(NODE_ENV)
+          NODE_ENV: JSON.stringify(NODE_ENV),
         },
         NODE_ENV: NODE_ENV,
         __DEV__: NODE_ENV === 'development',
-        __PROD__: NODE_ENV === 'production'
+        __PROD__: NODE_ENV === 'production',
       }),
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
-        'window.jQuery': 'jquery'
+        'window.jQuery': 'jquery',
       }),
       new Dotenv({
         path: path.resolve(__dirname, '..', '.env'),
-        safe: false
-      })
+        safe: false,
+      }),
     ]
-  )
-}
+  ),
+};
