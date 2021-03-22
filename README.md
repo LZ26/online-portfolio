@@ -7,7 +7,7 @@ Simple website which illustrates background information about myself and showcas
 ### Installing the dependencies
 
 ```sh
-git clone --depth=1 <https://github.com/LZ26/portfolio-website.git> portfolio-website
+git clone --depth=1 <https://github.com/LZ26/online-portfolio.git> online-portfolio
 cd project-name
 npm install
 ```
