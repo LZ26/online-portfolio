@@ -1,8 +1,8 @@
 {
-  "name": "online-portfolio",
-  "author": "Laziz",
+  "name": "mashup-univers",
+  "author": "Antoine Renault <antoine.renault.mmi@gmail.com>",
   "version": "0.1.0",
-  "description": "Online Portfolio",
+  "description": "Mashup univers",
   "license": "MIT",
   "engines": {
     "node": ">=6"
@@ -14,7 +14,7 @@
     "build": "npm run clean && NODE_ENV=production webpack",
     "lint": "eslint src config",
     "lint:fix": "npm run lint -- --fix",
-    "deploy:now": "npm run build && cd dist && now --static -p -n online-portfolio  && cd ..",
+    "deploy:now": "npm run build && cd dist && now --static -p -n mashup-univers  && cd ..",
     "deploy:gae:staging": "npm run build && gcloud app deploy --version=staging --no-promote && gcloud app browse && gcloud app logs tail -s default",
     "deploy:gae:production": "npm run build && gcloud app deploy --version production && gcloud app browse && gcloud app logs tail -s default"
   },
@@ -46,9 +46,9 @@
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "v1.0.0-beta.1",
     "url-loader": "^0.5.8",
-    "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.5.1"
+    "webpack": "^5.27.2"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
